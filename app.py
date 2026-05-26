@@ -134,11 +134,13 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+color = "grey" if house_load < 0 else "inherit"
+
 st.markdown(f"""
 <div style="display: flex; align-items: left; justify-content: center; width: fit-content; gap: 1rem; ">
     <div style="flex: 0 0 auto; text-align: left;">
-        <h5>🏠 Berechneter Verbrauch</h5>
-        <p style="font-size: 35px; ">{house_load} W</p>
+        <h5 style="color:{color};">{"" if color == "grey" else "🏠 "}Berechneter Verbrauch</h5>
+        <p style="font-size: 35px; color:{color}; ">{house_load} W</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
