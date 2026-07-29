@@ -302,7 +302,7 @@ st.segmented_control(
     on_change=mode_changed
 )
 
-@st.cache_data(ttl=3600)  # Cache für 1 Stunde
+@st.cache_data(ttl=3600, show_spinner=False)  # Cache für 1 Stunde
 def cached_chart(forecast_day, pv_total):
     return get_data_chart(forecast_day, pv_total)
 
