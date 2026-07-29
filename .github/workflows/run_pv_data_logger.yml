@@ -2,10 +2,16 @@ name: Run PV Data Logger
 
 on:
   schedule:
+    - cron: "0 17 * * *"
+    - cron: "15 17 * * *"
+    - cron: "30 17 * * *"
+    - cron: "45 17 * * *"
+    - cron: "0 18 * * *"
+    - cron: "15 18 * * *"
+    - cron: "30 18 * * *"
+    - cron: "45 18 * * *"
     - cron: "0 19 * * *"
-    - cron: "15 19 * * *"
     - cron: "30 19 * * *"
-    - cron: "45 19 * * *"
     - cron: "0 20 * * *" 
     - cron: "0 21 * * *"
     - cron: "0 22 * * *"
@@ -24,10 +30,6 @@ on:
     - cron: "15 4 * * *" 
     - cron: "30 4 * * *" 
     - cron: "45 4 * * *" 
-    - cron: "0 5 * * *" 
-    - cron: "15 5 * * *" 
-    - cron: "30 5 * * *" 
-    - cron: "45 5 * * *"
   workflow_dispatch:
 
 jobs:
