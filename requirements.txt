@@ -3,3 +3,7 @@ ntplib
 requests
 pandas
 cryptography
+streamlit
+joblib
+numpy
+altair
