@@ -6,4 +6,4 @@ cryptography
 streamlit
 joblib
 numpy
-
+altair
