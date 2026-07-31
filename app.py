@@ -169,6 +169,13 @@ def get_data_chart(forecast_day, pv_total):
     if df.empty:
         return None
 
+    day = df["time"].dt.date.iloc[0]
+    start = datetime.combine(day, datetime.min.time()).replace(hour=5)
+    end   = datetime.combine(day, datetime.min.time()).replace(hour=22)
+
+    # DF auf Zeitbereich beschränken
+    df = df[(df["time"] >= start) & (df["time"] <= end)]
+
     df["pv_sum"] = df["pv1"] + df["pv2"]
 
     tmin = df["time"].min()
@@ -183,37 +190,34 @@ def get_data_chart(forecast_day, pv_total):
             y="pv_sum:Q"
         )
 
-    # 2. pv_total prüfen
+    # --- Prüfen, ob NOW im Bereich liegt ---
+    draw_now = (tmin <= now <= tmax)
+
+    # pv_total prüfen
     if pv_total is None:
         pv_total = 0
-
-    # # 3. now prüfen
-    if not (tmin <= now <= tmax):
-        draw_now = False
-    else:
-        draw_now = True    
 
     pv_sum = (
         alt.Chart(df) # "#D48D09"
         .mark_area(color="#BD7D08", interpolate="monotone") #mark_line mark_bar mark_area mark_trail
         .encode( #"#fd0"
-            x=alt.X("time:T", axis=alt.Axis(format="%H:%M"), title=None),
+            x=alt.X("time:T", axis=alt.Axis(format="%H h"), title=None),
             y=alt.Y("pv_sum:Q", title=None),
-            tooltip=[alt.Tooltip("time:T", title="time", format="%H:%M"),
+            tooltip=[alt.Tooltip("time:T", title="time", format="%H h"),
                      "pv1", "pv2", "pv_sum"]
         )
-        .properties(height=270)
+        .properties(height=300)
     )
     pv1 = (
         alt.Chart(df)
         .mark_area(color="orange", interpolate="monotone")
         .encode(
-            x=alt.X("time:T", axis=alt.Axis(format="%H:%M"), title=None),
+            x=alt.X("time:T", axis=alt.Axis(format="%H h"), title=None),
             y=alt.Y("pv1:Q", title=None),
-            tooltip=[alt.Tooltip("time:T", title="time", format="%H:%M"),
+            tooltip=[alt.Tooltip("time:T", title="time", format="%H h"),
                 "pv1", "pv2", "pv_sum"]
         )
-        .properties(height=270)
+        .properties(height=300)
     )
     rule_8k = (
         alt.Chart(pd.DataFrame({"pv_sum": [8000]}))
@@ -314,3 +318,11 @@ with st.spinner("Vorhersage ..."):
         st.error("Keine Daten")
     else:
         st.altair_chart(chart)
+
+st.markdown("""
+<style>
+.block-container {
+    padding-bottom: 3rem;
+}
+</style>
+""", unsafe_allow_html=True)
