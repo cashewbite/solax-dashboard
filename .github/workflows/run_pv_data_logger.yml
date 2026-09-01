@@ -1,0 +1,62 @@
+name: Run PV Data Logger
+
+on:
+  schedule:
+    - cron: "45 3 * * *"    
+    - cron: "0 4 * * *"
+    - cron: "15 4 * * *"
+    - cron: "30 4 * * *"
+    - cron: "45 4 * * *"
+    - cron: "0 5 * * *"
+    - cron: "15 5 * * *"
+    - cron: "30 5 * * *"
+    - cron: "45 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # erlaubt push
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements_pv_data_logger.txt
+
+      - name: Run API script
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          TOKEN_ID: ${{ secrets.TOKEN_ID }}
+          WIFI_SN: ${{ secrets.WIFI_SN }}
+          LAT: ${{ secrets.LAT }}
+          LON: ${{ secrets.LON }}
+          FERNET_KEY: ${{ secrets.FERNET_KEY }}
+
+        run: python pv_data_logger.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-action"
+          git config --global user.email "github-action@.github.com"
+
+          git add .
+
+          # Nur committen, wenn es Änderungen gibt
+          if ! git diff --cached --quiet; then
+            git commit -m "Update data via GitHub Actions (Run PV Data Logger)"
+            git push origin main
+          else
+            echo "Keine Änderungen, kein Commit."
+          fi

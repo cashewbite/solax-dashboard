@@ -1,0 +1,10 @@
+suncalc
+ntplib
+requests
+pandas
+cryptography
+streamlit
+joblib
+numpy
+altair
+scikit-learn==1.7.2
