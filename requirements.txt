@@ -8,3 +8,4 @@ joblib
 numpy
 altair
 scikit-learn==1.7.2
+pygithub
