@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import io
 from cryptography.fernet import Fernet
-from github import Github
+from github import Github, Auth
 import ntplib
 import pandas as pd
 import requests
@@ -90,7 +90,8 @@ def log_pv_data():
         # ------------------------------------------------------------
         # GITHUB SYNCHRONISATION (Datei laden, mergen, hochladen)
         # ------------------------------------------------------------
-        g = Github(GITHUB_TOKEN)
+        auth = Auth.Token(GITHUB_TOKEN)
+        g = Github(auth=auth)
         repo = g.get_repo(
             "cashewbite/solax-dashboard"
         )
