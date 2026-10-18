@@ -5,7 +5,7 @@ import altair as alt
 from today_predict import predict_day
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-from pv_data_logger_st import log_pv_data
+# from pv_data_logger_st import log_pv_data
 
 status = 200
 
@@ -333,8 +333,8 @@ st.markdown("""
 # -----------------------------
 # Diese Funktion wird dank ttl=300 maximal alle 5 Minuten wirklich ausgeführt.
 # Dazwischen liefert Streamlit einfach das Ergebnis aus dem Cache, ohne den Code zu starten.
-@st.cache_data(ttl=300, show_spinner=False)
-def run_throttled_logger():
-  return log_pv_data()
+# @st.cache_data(ttl=300, show_spinner=False)
+# def run_throttled_logger():
+#   return log_pv_data()
 
-success = run_throttled_logger()
+# success = run_throttled_logger()
