@@ -1,0 +1,5 @@
+suncalc
+ntplib
+requests
+pandas
+cryptography
